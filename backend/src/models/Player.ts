@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 export interface IPlayer extends Document {
   username: string;
@@ -39,8 +39,8 @@ const playerSchema = new Schema<IPlayer>(
 playerSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password!, salt);
+  const salt = await bcryptjs.genSalt(10);
+  this.password = await bcryptjs.hash(this.password!, salt);
 });
 
 export const Player = model<IPlayer>('Player', playerSchema);
