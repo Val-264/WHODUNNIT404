@@ -1,6 +1,6 @@
-import { Server } from "./server"; // Sin .ts
+import { Server } from "./server";
 import dotenv from "dotenv";
-import routes from "./routes/index"; // Sin .ts (o simplemente "./routes")
+import routes from "./routes/index";
 
 dotenv.config();
 
