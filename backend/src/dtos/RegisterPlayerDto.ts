@@ -10,7 +10,7 @@ export class RegisterPlayerDTO {
       throw new Error('Player data is required');
     }
 
-    const { username, email, password } = obj as Record<string, unknown>;
+    const { username, email, password, confirmPassword } = obj as Record<string, unknown>;
 
     if (!username || typeof username !== 'string' || !username.trim()) {
       throw new Error('name is required');
@@ -28,6 +28,14 @@ export class RegisterPlayerDTO {
 
     if (!password || typeof password !== 'string' || !passwordRegex.test(password)) {
         throw new Error('Password must have at least 8 characters, an uppercase, a lowercase and a number');
+    }
+
+    if (!confirmPassword || typeof confirmPassword !== 'string') {
+      throw new Error('confirmPassword is required');
+    }
+
+    if (password !== confirmPassword) {
+      throw new Error('Password do not match');
     }
 
     return new RegisterPlayerDTO(
