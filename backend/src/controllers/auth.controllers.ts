@@ -29,9 +29,24 @@ export class AuthController {
         return;
       }
 
-      // Si el error viene de la validación del DTO (error de entrada)
-      if (err.message.includes('obligatory') || err.message.includes('must have') || err.message.includes('valid')) {
-        res.status(400).json({ success: false, message: err.message });
+      // If error originates for bad body sintaxys 
+      const spected_data = ['username', 'email', 'password'];
+      const missed_data = spected_data.filter(campo => !(campo in req.body));
+
+      if (missed_data.length > 0) {
+        res.status(400).json({message: `The following mandatory fields are missing: ${missed_data.join(', ')}`});
+        return;
+      }
+
+      // If the error originates from DTO validation (input error)
+      if (
+        err.message === 'Player data is required' ||
+        err.message === 'name is required' ||
+        err.message === 'user name must have at least 1 character' ||
+        err.message === 'email is required' ||
+        err.message.includes('Password must have')
+      ) {
+        res.status(400).json({ success: false, error: err.message });
         return;
       }
 
