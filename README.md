@@ -18,6 +18,7 @@ This project is developed with Node.js, Express, and TypeScript to manage a murd
 - **Backend:** TypeScript
 - **Web Framework:** Express
 - **Database:** MongoDB (Mongoose)
+- **Testing:** Vitest, Supertest
 - **Version Control:** Git / GitHub (Gitflow)
 
 ---
@@ -38,6 +39,12 @@ WHODUNNIT404/
 │   │   ├── types/        # TypeScript custom definitions and interfaces
 │   │   ├── app.ts        # Entry point application setup
 │   │   └── server.ts     # Express server class configuration
+|   └──tests/             # Automated test suite (Vitest + Supertest)
+|   |   ├── app.test.ts
+|   |   └── tsconfig.json
+|   ├── .env.test.example # Template for test enviroment variables
+|   └── vitest.config.mts # Vitest configuration file 
 │   └── tsconfig.json     # TypeScript compiler configuration
 ├── db/                   # Database scripts and seeders
 └── frontend/             # Frontend source code
+```
