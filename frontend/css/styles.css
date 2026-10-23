@@ -215,3 +215,24 @@ label,
     height: 22px;
   }
 }
+
+.support {
+  border-top: 1px solid #2a2a2a;
+  margin-top: 25px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: small;
+  a {
+    color: #d00000;
+    font-weight: bold;
+  }
+}
+
+.form-alert {
+  border: 1px solid #ff5a5a;
+  background-color: rgba(255, 90, 90, 0.08);
+  color: #ff5a5a;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  font-size: small;
+}
