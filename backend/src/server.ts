@@ -19,7 +19,11 @@ export class Server {
 
   public async start () {
     await connectDB();
-    this.server.use(cors({origin: process.env.CLIENT_URL || "http://127.0.0.1:5500"}));
+    this.server.use(
+      cors({
+        origin: process.env.CLIENT_URL || "http://127.0.0.1:5500",
+        credentials: true
+      }));
     this.server.use(express.json());
     this.server.use("/api", this.routes);
     this.server.listen(this.port, () => {
