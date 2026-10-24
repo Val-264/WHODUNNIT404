@@ -1,5 +1,6 @@
 import express, { Router,type Express } from "express";
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { connectDB } from "./config/dbConnection";
 
 type serverOptions = {
@@ -25,6 +26,7 @@ export class Server {
         credentials: true
       }));
     this.server.use(express.json());
+    this.server.use(cookieParser());
     this.server.use("/api", this.routes);
     this.server.listen(this.port, () => {
       console.log(`server running on port: ${this.port}`);
