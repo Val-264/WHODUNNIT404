@@ -3,7 +3,7 @@ import { RegisterPlayerDTO } from '../dtos/RegisterPlayerDto';
 import { LoginPlayerDTO } from '../dtos/LoginPlayerDto';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { dot } from 'node:test/reporters';
+
 export class AuthService {
   /**
    * Register new player on database 
