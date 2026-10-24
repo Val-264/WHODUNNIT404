@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { RegisterPlayerDTO } from '../dtos/RegisterPlayerDto';
 import { AuthService } from '../services/auth.services';
+import { LoginPlayerDTO } from '../dtos/LoginPlayerDto';
 
 export class AuthController {
   public static async registerPlayer(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -53,6 +54,33 @@ export class AuthController {
       }
 
       // If it is an unhandled error, it is passed to the errorHandler
+      next(error);
+    }
+  }
+
+  public static async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      // Validate input with DTO
+      const [error, loginDto] = LoginPlayerDTO.create(req.body);
+      if (error) {
+        res.status(401).json({ success: false, message: error });
+        return;
+      }
+
+      const token = await AuthService.login(loginDto!);
+      
+      // Attach HTTP-Only cookie 
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000 // Expires on 1 day
+      });
+
+      // Send response without Response object
+      res.status(200).json({ message: 'Login successful' });
+      return;
+    } catch (error) {
       next(error);
     }
   }
