@@ -1,8 +1,5 @@
 import { Player, IPlayer } from '../models/Player';
 import { RegisterPlayerDTO } from '../dtos/RegisterPlayerDto';
-import { LoginPlayerDTO } from '../dtos/LoginPlayerDto';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 export class AuthService {
   /**
@@ -33,47 +30,12 @@ export class AuthService {
 
     await newPlayer.save();
 
-    // Return user data without password 
+    // Reurn user data without password 
     return {
       _id: newPlayer._id,
       username: newPlayer.username,
       email: newPlayer.email,
       createdAt: newPlayer.createdAt,
     };
-  }
-
-  /** 
-  * @param dto user credential previously sanitized 
-  * @return Signed JWT token 
-   */ 
-  public static async login(dto: LoginPlayerDTO): Promise<string> {
-    // Determine if the identifier is an email or username and check if it exisits on database 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmail = emailRegex.test(dto.identifier);
-    
-    const player = await Player.findOne(
-      isEmail? { email: dto.identifier } : { username: dto.identifier }
-    ).select('+password'); // To be sure MongoDb brings the hash
-
-    // If user doesn't exists on database 
-    if (!player || !player.password) {
-      throw new Error('INVALID_CREDENTIALS');
-    }
-
-    // Compare the password sent with the hash stored in db
-    const isPasswordValid = await bcrypt.compare(dto.password, player.password)
-    if (!isPasswordValid) {
-      throw new Error('INVALID_CREDENTIALS');
-    }
-
-    // Create and retunr JWT token 
-    const secret =process.env.JWT_SECRET || 'default_secret';
-    const token = jwt.sign(
-      { id: player._id, username: player.username, email: player.email },
-      secret,
-      { expiresIn: '1d'}
-    )
-
-    return token;
   }
 }

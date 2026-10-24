@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { RegisterPlayerDTO } from '../dtos/RegisterPlayerDto';
 import { AuthService } from '../services/auth.services';
-import { LoginPlayerDTO } from '../dtos/LoginPlayerDto';
 
 export class AuthController {
   public static async registerPlayer(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -35,7 +34,7 @@ export class AuthController {
       const missed_data = spected_data.filter(campo => !(campo in req.body));
 
       if (missed_data.length > 0) {
-        res.status(400).json({ message: `The following mandatory fields are missing: ${missed_data.join(', ')}` });
+        res.status(400).json({message: `The following mandatory fields are missing: ${missed_data.join(', ')}`});
         return;
       }
 
@@ -54,69 +53,6 @@ export class AuthController {
       }
 
       // If it is an unhandled error, it is passed to the errorHandler
-      next(error);
-    }
-  }
-
-  public static async login(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      // Check for missing mandatory fields in body before passing to DTO
-      if (!req.body || typeof req.body !== 'object') {
-        res.status(400).json({ success: false, message: 'Player credentials are required' });
-        return;
-      }
-
-      const spected_data = ['identifier', 'password'];
-      const missed_data = spected_data.filter(campo => !(campo in req.body));
-
-      if (missed_data.length > 0) {
-        res.status(400).json({ success: false, message: `The following mandatory fields are missing: ${missed_data.join(', ')}` });
-        return;
-      }
-
-      // Validate input with DTO
-      const [error, loginDto] = LoginPlayerDTO.create(req.body);
-      if (error) {
-        res.status(400).json({ success: false, message: error });
-        return;
-      }
-
-      const token = await AuthService.login(loginDto!);
-      
-      // Attach HTTP-Only cookie 
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000 // Expires on 1 day
-      });
-
-      // Send response without Response object
-      res.status(200).json({ message: 'Login successful' });
-      return;
-    } catch (error) {
-      const err = error as Error;
-
-      // Error returned by authservice
-      if (err.message === 'INVALID_CREDENTIALS') {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-        return;
-      }
-
-      // If it is an unhandled error, it is passed to the errorHandler
-      next(error);
-    }
-  }
-
-  public static async getProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      // Response with decoded user attached from verifyToken middleware
-      res.status(200).json({
-        success: true,
-        user: req.user,
-      });
-      return;
-    } catch (error) {
       next(error);
     }
   }
