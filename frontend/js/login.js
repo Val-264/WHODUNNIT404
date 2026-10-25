@@ -1,4 +1,3 @@
-// TODO: confirm these routes and the field name with the backend
 const API_URL = "http://localhost:3000/api/auth/login";
 const SESSION_URL = "http://localhost:3000/api/auth/me";
 const MENU_URL = "menu.html";
