@@ -6,6 +6,7 @@ export interface IPlayer extends Document {
   email: string;
   password?: string;
   createdAt?: Date;
+  profileImg: string;
 }
 
 const playerSchema = new Schema<IPlayer>(
@@ -29,6 +30,11 @@ const playerSchema = new Schema<IPlayer>(
       minlength: [8, 'Password must have at least 8 characters'],
       select: false, 
     },
+    profileImg: {
+      type: String,
+      required: false,
+      default: '',
+    }
   },
   {
     timestamps: true, 
