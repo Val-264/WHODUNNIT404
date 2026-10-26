@@ -15,7 +15,7 @@ function showState(name) {
   contentState.hidden = name !== "content";
 }
 
-// TODO: adjust to the real API response (field names)
+// The API answers { success, data: { username, history, ... } }
 function readProfile(body) {
   const data = body.data || body;
   return {
@@ -24,9 +24,8 @@ function readProfile(body) {
   };
 }
 
-// TODO: adjust to the real value the API uses for a solved case
 function isSolved(item) {
-  return item.status === "solved";
+  return item.status === "SOLVED";
 }
 
 function formatDate(value) {
@@ -42,10 +41,10 @@ function createCaseRow(item) {
   const info = document.createElement("div");
   const title = document.createElement("p");
   title.className = "case-title";
-  title.textContent = item.title;
+  title.textContent = item.caseTitle;
   const date = document.createElement("p");
   date.className = "case-date";
-  date.textContent = formatDate(item.date);
+  date.textContent = formatDate(item.completedAt);
   info.append(title, date);
 
   const badge = document.createElement("span");
@@ -80,7 +79,7 @@ async function loadProfile() {
   showState("loading");
 
   try {
-    const response = await fetch(PROFILE_URL, { credentials: "include" });
+    const response = await fetch(API_URL, { credentials: "include" });
 
     // No valid session: go back to the login
     if (response.status === 401) {
@@ -97,6 +96,7 @@ async function loadProfile() {
     renderProfile(readProfile(body));
     showState("content");
   } catch (error) {
+      console.error(error);
     showState("error");
   }
 }
