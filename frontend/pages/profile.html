@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
+    <title>Mi perfil | Whodunnit404</title>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-circle">
+          <img src="../assets/icons/search.svg" alt="" />
+        </div>
+        <span class="navbar-title">WHODUNNIT<span>404</span></span>
+        <nav class="navbar-links">
+          <a href="#">Expedientes</a>
+          <a href="#">Evidencias</a>
+          <a href="#">Sospechosos</a>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <span class="user-chip" id="user-chip"></span>
+        <a href="profile.html">Mi perfil</a>
+        <button type="button" class="btn-logout">Cerrar sesión</button>
+        <div class="avatar-circle">
+          <img src="../assets/icons/person.svg" alt="" />
+        </div>
+      </div>
+    </header>
+
+    <main class="profile-container">
+      <!-- LOADING -->
+      <section id="loading-state">
+        <p class="loading-banner">
+          <span class="spinner"></span>
+          Cargando expediente...
+        </p>
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
+      </section>
+
+      <!-- ERROR -->
+      <section id="error-state" class="state-card" hidden>
+        <img src="../assets/icons/warning.svg" alt="" class="state-icon" />
+        <h2>No pudimos cargar tu historial</h2>
+        <button type="button" class="btn-primary" id="retry-btn">
+          Reintentar
+        </button>
+        <a href="menu.html" class="link-back">Volver al menú</a>
+      </section>
+
+      <!-- CONTENT -->
+      <section id="content-state" hidden>
+        <div class="profile-top">
+          <div class="profile-card">
+            <div class="avatar">
+              <img src="../assets/icons/person.svg" alt="" />
+            </div>
+            <div>
+              <p class="profile-role">Detective</p>
+              <h1 class="profile-name" id="profile-username"></h1>
+            </div>
+          </div>
+
+          <div class="stats-card">
+            <h2 class="section-title">Hoja de servicio</h2>
+            <div class="stats">
+              <div class="stat">
+                <strong id="stat-solved">0</strong>
+                <span>Resueltos</span>
+              </div>
+              <div class="stat stat-failed">
+                <strong id="stat-failed">0</strong>
+                <span>Fallidos</span>
+              </div>
+              <div class="stat">
+                <strong id="stat-total">0</strong>
+                <span>Total de casos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title history-title">Historial de casos</h2>
+
+        <ul class="history-list" id="history-list"></ul>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <img src="../assets/icons/search-red.svg" alt="" class="state-icon" />
+          <h3>Aún no has resuelto ningún caso</h3>
+          <a href="menu.html" class="btn-primary btn-small">Ir al menú</a>
+        </div>
+
+        <a href="menu.html" class="btn-back">Volver al menú</a>
+      </section>
+    </main>
+
+    <script src="../js/profile.js"></script>
+  </body>
+</html>
