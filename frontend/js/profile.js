@@ -1,4 +1,4 @@
-const PROFILE_URL = "http://localhost:3000/api/profile";
+const API_URL = "http://127.0.0.1:3000/api/profile";
 const LOGIN_URL = "login.html";
 
 const loadingState = document.getElementById("loading-state");
