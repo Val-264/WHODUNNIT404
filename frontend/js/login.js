@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:3000/api/auth/login";
-const SESSION_URL = "http://localhost:3000/api/auth/me";
+const API_URL = "http://127.0.0.1:3000/api/auth/login";
+const SESSION_URL = "http://127.0.0.1:3000/api/auth/me";
 const MENU_URL = "menu.html";
 
 const form = document.getElementById("login-form");

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/auth/register";
+const API_URL = "http://127.0.0.1:3000/api/auth/register";
 const MENU_URL = "menu.html";
 
 // Same rules as RegisterPlayerDTO in the backend
