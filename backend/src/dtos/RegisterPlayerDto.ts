@@ -1,3 +1,6 @@
+import { isValidEmail } from "../utils/validators";
+import { isValidPassword } from "../utils/validators";
+
 export class RegisterPlayerDTO {
   private constructor(
     public readonly username: string,
@@ -19,14 +22,13 @@ export class RegisterPlayerDTO {
       throw new Error('user name must have at least 1 character');
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || typeof email !== 'string' || !emailRegex.test(email.trim())) {
+    if (!email || typeof email !== 'string' || !isValidEmail(email.trim())) {
       throw new Error('email is required');
     }
 
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-    if (!password || typeof password !== 'string' || !passwordRegex.test(password)) {
+
+    if (!password || typeof password !== 'string' || !isValidPassword(password)) {
         throw new Error('Password must have at least 8 characters, an uppercase, a lowercase and a number');
     }
 

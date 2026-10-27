@@ -9,7 +9,10 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   }
 
   try {
-    const secret = process.env.JWT_SECRET || 'default_secret';
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      return res.status(500).json({ message: 'Server configuration error: JWT_SECRET missing' })
+    }
     const decoded = jwt.verify(token, secret) as JwtPayload;
     req.user = decoded; 
     next();

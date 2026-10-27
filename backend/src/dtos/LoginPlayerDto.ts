@@ -1,3 +1,5 @@
+import { isValidEmail } from "../utils/validators";
+
 export class LoginPlayerDTO {
     private constructor(
         public readonly identifier: string,
@@ -20,9 +22,8 @@ export class LoginPlayerDTO {
         }
 
         const cleanIdentifier = identifier.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        const formattedIdentifier = emailRegex.test(cleanIdentifier)
+        const formattedIdentifier = isValidEmail(cleanIdentifier)
             ? cleanIdentifier.toLowerCase() // If it is email
             : cleanIdentifier;              // If it is username
 
@@ -30,5 +31,9 @@ export class LoginPlayerDTO {
             undefined,
             new LoginPlayerDTO(formattedIdentifier, password)
         ];
+    }
+
+    public isEmail(): boolean {
+        return isValidEmail(this.identifier);
     }
 }
