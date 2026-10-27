@@ -48,11 +48,8 @@ export class AuthService {
    */ 
   public static async login(dto: LoginPlayerDTO): Promise<string> {
     // Determine if the identifier is an email or username and check if it exisits on database 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmail = emailRegex.test(dto.identifier);
-    
     const player = await Player.findOne(
-      isEmail? { email: dto.identifier } : { username: dto.identifier }
+      dto.isEmail() ? { email: dto.identifier } : { username: dto.identifier }
     ).select('+password'); // To be sure MongoDb brings the hash
 
     // If user doesn't exists on database 
