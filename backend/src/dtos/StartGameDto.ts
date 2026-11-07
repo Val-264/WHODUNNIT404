@@ -1,16 +1,16 @@
 export class StartGameDTO {
     private constructor(
-        public readonly storyId: string,
+        public readonly story_id: string,
         public readonly isRestart: boolean
     ) {}
 
     public static create(body: any): [string?, StartGameDTO?] {
-        const { storyId, restart } = body;
+        const { story_id, restart } = body;
 
-        if (!storyId || typeof storyId !== 'string') {
+        if (!story_id || typeof story_id !== 'string') {
             return ['storyId is required and must be a string']
         }
 
-        return [undefined, new StartGameDTO(storyId, Boolean(restart))];
+        return [undefined, new StartGameDTO(story_id, Boolean(restart))];
     }
 }
