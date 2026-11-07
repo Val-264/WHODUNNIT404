@@ -18,34 +18,5 @@ export class GameController {
         }
     }
 
-    public static async startGame(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const playerId = req.user?.id;
-            if (!playerId) {
-                res.status(401).json({success: false, message: 'Unauthorized'});
-                return;
-            }
-
-            const [error, dto] = StartGameDTO.create(req.body);
-            if (error) {
-                res.status(400).json({success: false, message: error});
-                return;
-            }
-
-            const gameData = await GameService.startGame(playerId, dto!);
-            res.status(201).json({success: true, data: gameData});
-        } catch (error) {
-            const err = error as Error;
-            if (err.message === 'STORY_NOT_FOUND') {
-                res.status(404).json({success: false, message: 'Story not found'});
-                return;
-            }
-
-            if  (err.message === 'INSUFFICIENT_GAME_DATA') {
-                res.status(500).json({ success: false, message: 'Database requires al least 9 suspects and 9places'});
-                return;
-            }
-            next(error);
-        }
-    }
+    
 }
