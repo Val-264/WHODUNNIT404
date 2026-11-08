@@ -23,7 +23,9 @@ const StorySchema = new Schema<IStory>({
     intro_text: {
         type: String,
         required: true
-    }
-});
+    },
+},
+{ collection: 'stories' }
+);
 
 export const Story = model<IStory>('Story', StorySchema);
