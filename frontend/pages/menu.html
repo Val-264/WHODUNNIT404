@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/menu.css" />
+    <title>Elige tu caso | Whodunnit404</title>
+  </head>
+  <body class="page-layout">
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-circle">
+          <img src="../assets/icons/search.svg" alt="" />
+        </div>
+        <span class="navbar-title">WHODUNNIT<span>404</span></span>
+        <nav class="navbar-links">
+          <a href="menu.html" class="active">Expedientes</a>
+          <a href="#">Evidencias</a>
+          <a href="#">Sospechosos</a>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <span class="user-chip" id="user-chip"></span>
+        <a href="profile.html">Mi perfil</a>
+        <button type="button" class="btn-logout">Cerrar sesión</button>
+        <div class="avatar-circle">
+          <img src="../assets/icons/person.svg" alt="" />
+        </div>
+      </div>
+    </header>
+
+    <main class="menu-container">
+      <!-- LOADING -->
+      <section id="loading-state">
+        <p class="loading-banner">
+          <span class="spinner"></span>
+          Cargando casos...
+        </p>
+        <div class="cases">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </section>
+
+      <!-- ERROR (also used when a case cannot be started) -->
+      <section id="error-state" class="state-card with-corners" hidden>
+        <img src="../assets/icons/warning.svg" alt="" class="state-icon" />
+        <h2 id="error-title"></h2>
+        <p id="error-text"></p>
+        <button type="button" class="btn-primary" id="retry-btn">
+          Reintentar
+        </button>
+        <a href="profile.html" class="link-back">Ver mi perfil</a>
+      </section>
+
+      <!-- CONTENT -->
+      <section id="content-state" hidden>
+        <div class="menu-header">
+          <p class="menu-tag">Expedientes activos // Archivo clasificado</p>
+          <h1 class="menu-title">Elige tu caso</h1>
+          <p class="menu-subtitle">
+            Selecciona un expediente para comenzar a investigar
+          </p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="cases" id="cases-list"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>Sistema clasificado // Whodunnit404</strong>
+        División forense digital
+      </div>
+      <div>
+        Acceso restringido a terminal
+        <span>Estado: conexión cifrada</span>
+      </div>
+    </footer>
+
+    <!-- RESTART CONFIRMATION -->
+    <div class="modal-overlay" id="confirm-modal" hidden>
+      <div class="modal with-corners">
+        <img src="../assets/icons/warning.svg" alt="" class="state-icon" />
+        <h2>¿Reiniciar este caso?</h2>
+        <p>
+          Perderás tu progreso actual en este caso. Esta acción no se puede
+          deshacer.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-btn">
+            Cancelar
+          </button>
+          <button type="button" class="btn-primary" id="confirm-btn">
+            Sí, reiniciar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPENING A CASE -->
+    <div class="modal-overlay" id="opening-modal" hidden>
+      <div class="modal with-corners">
+        <span class="spinner spinner-center"></span>
+        <h2>Abriendo expediente...</h2>
+        <p id="opening-name"></p>
+      </div>
+    </div>
+
+    <script src="../js/menu.js"></script>
+  </body>
+</html>
