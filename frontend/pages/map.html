@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/map.css" />
+    <title>Mapa de la escena | Whodunnit404</title>
+  </head>
+  <body class="page-layout">
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-circle">
+          <img src="../assets/icons/search.svg" alt="" />
+        </div>
+        <span class="navbar-title">WHODUNNIT<span>404</span></span>
+        <nav class="navbar-links">
+          <a href="menu.html" class="active">Expedientes</a>
+          <a href="#">Evidencias</a>
+          <a href="#">Sospechosos</a>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <span class="user-chip" id="user-chip"></span>
+        <a href="profile.html">Mi perfil</a>
+        <button type="button" class="btn-logout">Cerrar sesión</button>
+        <div class="avatar-circle">
+          <img src="../assets/icons/person.svg" alt="" />
+        </div>
+      </div>
+    </header>
+
+    <main class="map-container">
+      <!-- LOADING -->
+      <section id="loading-state">
+        <p class="loading-banner">
+          <span class="spinner"></span>
+          Cargando escena...
+        </p>
+        <div class="city-grid">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </section>
+
+      <!-- ERROR -->
+      <section id="error-state" class="state-card with-corners" hidden>
+        <img src="../assets/icons/warning.svg" alt="" class="state-icon" />
+        <h2>No pudimos cargar la partida</h2>
+        <p>El servidor no responde o la partida ya no está disponible.</p>
+        <button type="button" class="btn-primary" id="retry-btn">
+          Reintentar
+        </button>
+        <a href="menu.html" class="link-back">Volver al menú</a>
+      </section>
+
+      <!-- CONTENT -->
+      <section id="content-state" hidden>
+        <div class="map-header">
+          <div>
+            <p class="map-tag" id="map-tag"></p>
+            <h1 class="map-title">Mapa de la escena</h1>
+            <p class="map-subtitle">Selecciona una zona para investigar</p>
+          </div>
+          <button type="button" class="btn-file" id="open-file-btn">
+            Ver expediente
+          </button>
+        </div>
+
+        <div class="city">
+          <div class="city-grid" id="zones-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>Sistema clasificado // Whodunnit404</strong>
+        División forense digital
+      </div>
+      <div>
+        Acceso restringido a terminal
+        <span>Estado: conexión cifrada</span>
+      </div>
+    </footer>
+
+    <!-- CASE FILE: opens over the map and can be closed at any time -->
+    <div class="modal-overlay" id="file-modal" hidden>
+      <article
+        class="file with-corners"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="file-victim"
+      >
+        <header class="file-header">
+          <p class="file-tag" id="file-tag"></p>
+          <h2 class="file-victim" id="file-victim"></h2>
+          <p class="stamp">
+            CONFIDENCIAL
+            <span>EXPEDIENTE NO. 404</span>
+          </p>
+          <button
+            type="button"
+            class="file-close"
+            id="file-close-btn"
+            aria-label="Cerrar expediente"
+          >
+            ✕
+          </button>
+          <div class="divider"></div>
+        </header>
+
+        <div class="file-body">
+          <section>
+            <h3 class="file-section"><small>DOC-A1</small> La víctima</h3>
+            <div id="file-victim-text"></div>
+          </section>
+          <section>
+            <h3 class="file-section"><small>DOC-B2</small> La historia</h3>
+            <div id="file-story-text"></div>
+          </section>
+          <section>
+            <h3 class="file-section"><small>DOC-C3</small> El contexto</h3>
+            <div id="file-context-text"></div>
+          </section>
+        </div>
+
+        <footer class="file-footer">
+          <button type="button" class="btn-primary" id="file-done-btn">
+            Cerrar expediente
+          </button>
+          <p>Pulsa ESC para cerrar</p>
+        </footer>
+      </article>
+    </div>
+
+    <script src="../js/map.js"></script>
+  </body>
+</html>
