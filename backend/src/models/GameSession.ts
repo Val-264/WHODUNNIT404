@@ -46,7 +46,7 @@ const GameSessionSchema = new Schema<IGameSession>({
             ref:'Suspect', 
             required: true,
         }, 
-        crime_scenen_id: {
+        crime_scene_id: {
             type: Schema.Types.ObjectId,
             ref: 'Place',
             required: true,
