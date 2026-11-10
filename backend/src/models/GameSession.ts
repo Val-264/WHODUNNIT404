@@ -43,7 +43,7 @@ const GameSessionSchema = new Schema<IGameSession>({
     solution: {
         guilty_suspect_id: {
             type: Schema.Types.ObjectId, 
-            red:'Suspect', 
+            ref:'Suspect', 
             required: true,
         }, 
         crime_scenen_id: {
@@ -54,14 +54,14 @@ const GameSessionSchema = new Schema<IGameSession>({
         weapon_id: {
             type: Schema.Types.ObjectId,
             ref: 'Weapon',
-            requiered: true,
+            required: true,
         }
     },
     suspect_locations: [
         {
             suspect_id: {
                 type: Schema.Types.ObjectId,
-                ref: 'Place',
+                ref: 'Suspect',
                 required: true, 
             },
             place_id: {
