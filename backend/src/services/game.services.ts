@@ -120,4 +120,51 @@ export class GameService {
             createdAt: session.createdAt,
         };
     }
+
+    public static async getGameById(gameId: string, playerId: string) {
+        const session = await GameSession.findOne({ _id: gameId, player_id: playerId }).populate('story_id');
+
+        if (!session) {
+            throw new Error('GAME_NOT_FOUND');
+        }
+
+        const story = session.story_id as any;
+        const places = await Place.find();
+
+        if (places.length < 9) {
+            throw new Error('INSUFFICIENT_GAME_DATA');
+        }
+        
+        const fixedMapLayout = [
+            'Teatro',             // Position 1
+            'Cantina',            // Position 2
+            'Biblioteca',         // Position 3
+            'Hotel',              // Position 4
+            'Plaza',              // Position 5 (Center)
+            'Salón de baile',     // Position 6
+            'Farmacia',           // Position 7
+            'Café',               // Position 8
+            'Fachada del banco',  // Position 9
+        ];
+
+        // Map the objects from MongoDB following the exact order from above
+        const orderedZones = fixedMapLayout.map((placeName) => {
+            const place = places.find((p) => p.place_name === placeName);
+            return {
+                id: place?._id,
+                name: place?.place_name,
+                zoneInfo: place?.zone_info,
+                imageUrl: place?.image_url,
+            };
+        });
+
+        return {
+            id: session._id,
+            title: story.title,
+            victimName: story.victim_name,
+            story: story.intro_text,
+            context: story.intro_text,
+            zones: orderedZones,
+        };
+    }
 }
