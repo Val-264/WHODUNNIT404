@@ -1,10 +1,11 @@
 // This file manage case consultation and random inicialization
 
 import { Story } from '../models/Story';
-
+import { Suspect } from '../models/Suspect';
+import { Place } from '../models/Place';
 import { GameSession} from '../models/GameSession';
 import { CaseListResponseDTO } from '../dtos/CaseListResponseDto';
-
+import { StartGameDTO } from '../dtos/StartGameDto';
 
 export class GameService {
 
@@ -16,7 +17,7 @@ export class GameService {
     const stories = await Story.find().limit(3);
 
     const activeSessions = await GameSession.find({
-        playerId, 
+        player_id: playerId, 
         status: 'IN_PROGRESS',
     });
 
@@ -28,5 +29,95 @@ export class GameService {
     return CaseListResponseDTO.render(stories, activeMap);
    }
 
-   
+    /*
+    Start or restart a game
+    */
+    public static async startGame(player_id: string, dto: StartGameDTO) {
+        const story = await Story.findById(dto.story_id);
+
+        if (!story) {
+            throw new Error('STORY_NOT_FOUND');
+        }
+
+        // If the player wants to restart the game
+        if (dto.isRestart) {
+            await GameSession.updateMany(
+                { player_id, story_id: dto.story_id, status: 'IN_PROGRESS' }, 
+                { status: 'FAILED' }
+            );
+        } else {
+            const existing = await GameSession.findOne({
+                player_id,
+                story_id: dto.story_id, 
+                status: 'IN_PROGRESS',
+            });
+            if (existing) {
+                return this.formatGameResponse(existing, story);
+            }
+        }
+
+        // Retrieve the 9 suspects and 9 places from db
+        const suspects = await Suspect.find();
+        const places = await Place.find();
+
+        if (suspects.length < 9 || places.length < 9) {
+            throw new Error('INSUFFICIENT_GAME_DATA');
+        }
+
+        /*
+        Random selection for secret solution 
+        (a guilty between nine, a crime scene between nine)
+        */
+        const randomGuilty = suspects[Math.floor(Math.random() * suspects.length)];
+        const randomScene = places[Math.floor(Math.random() * places.length)];
+
+        // Random shuffle the nine suspects on the nine locations (1 to 1)
+        const shuffledPlaces = [...places].sort(() => Math.random() - 0.5);
+        const suspectLocations = suspects.map((suspect, index) => {
+            const targetPlace = shuffledPlaces[index];
+            if (!targetPlace) {
+                throw new Error('INSUFFICIENT_GAME_DATA');
+            }
+
+            return {
+                suspect_id: suspect._id as any,
+                place_id: targetPlace._id as any,
+            };
+        });
+
+        if (!randomGuilty || !randomScene) {
+            throw new Error('INSUFFICIENT_GAME_DATA');
+        }
+
+        // Create new game session
+        const newSession = new GameSession({
+            player_id,
+            story_id: story._id,
+            status: 'IN_PROGRESS',
+            solution: {
+                guilty_suspect_id: randomGuilty._id,
+                crime_scene_id: randomScene._id,
+                weapon_id: story.fixed_weapon_id,
+            },
+            suspect_locations: suspectLocations,
+        });
+
+        await newSession.save();
+
+        return this.formatGameResponse(newSession, story);
+    }
+
+    private static formatGameResponse(session: any, story: any) {
+        return {
+            gameId: session._id,
+            status: session.status,
+            caseFile: {
+                title: story.title,
+                victimName: story.victim_name,
+                introText: story.intro_text,
+                weaponId: story.fixed_weapon_id,
+            },
+            createdAt: session.createdAt,
+        };
+    }
 }
