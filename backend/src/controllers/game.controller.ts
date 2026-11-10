@@ -52,4 +52,31 @@ export class GameController {
             next(error);
         }
     }    
+
+    public static async getGameById(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const playerId = req.user?.id;
+            const { id } = req.params;
+
+            if (!playerId) {
+                res.status(401).json({ success: false, message: 'Unauthorized' });
+                return;
+            }
+
+            if (!id || typeof id !== 'string') {
+                res.status(400).json({ success: false, message: 'Invalid or missing game ID' });
+                return;
+            }
+
+            const gameData = await GameService.getGameById(id, playerId);
+            res.status(200).json({ success: true, data: gameData });
+        } catch (error) {
+            const err = error as Error;
+            if (err.message === 'GAME_NOT_FOUND') {
+                res.status(404).json({ success: false, message: 'Game session not found' });
+                return;
+            }
+            next(error);
+        }
+    }
 }
