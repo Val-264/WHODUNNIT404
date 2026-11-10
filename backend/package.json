@@ -9,7 +9,8 @@
     "test:watch": "vitest",
     "build": "npx tsc",
     "start": "node ./src/app.js",
-    "dev": "npx tsx --watch ./src/app.ts"
+    "dev": "npx tsx --watch ./src/app.ts",
+    "seed": "npx tsx ./src/seeders/game.seeder.ts"
   },
   "keywords": [],
   "author": "",
