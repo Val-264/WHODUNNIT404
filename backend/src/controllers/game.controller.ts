@@ -18,6 +18,7 @@ export class GameController {
         }
     }
 
+    /*Start/ restart game*/
     public static async startGame(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const playerId = req.user?.id;
