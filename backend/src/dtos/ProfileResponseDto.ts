@@ -3,7 +3,7 @@ import { IGameSession } from '../models/GameSession';
 
 export interface GameHistoryItem {
     caseTitle: string;
-    status: 'SOLVED' | 'FAILED';
+    status: 'IN_PROGRESS' | 'SOLVED' | 'FAILED';
     completedAt?: Date;
 }
 
@@ -22,7 +22,7 @@ export class ProfileResponseDTO {
 
             return {
                 caseTitle: story && story.title ? story.title: 'Unknown Case',
-                status: session.status as 'SOLVED' | 'FAILED',
+                status: session.status as 'IN_PROGRESS' | 'SOLVED' | 'FAILED',
                 completedAt: session.started_at,
             };
         });
