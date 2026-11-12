@@ -8,7 +8,7 @@ export interface ISuspectLocation {
 export interface IGameSession extends Document {
     player_id: Types.ObjectId;
     story_id: Types.ObjectId;
-    status: 'IN_PROGRESS' |'SOLVED' | 'FAILED';
+    status: 'IN_PROGRESS' |'SOLVED' | 'FAILED' | 'ABANDONED';
     started_at: Date;
     solution: {
         guilty_suspect_id: Types.ObjectId;
@@ -32,7 +32,7 @@ const GameSessionSchema = new Schema<IGameSession>({
     },
     status: {
         type: String,
-        enum: ['IN_PROGRESS', 'SOLVED', 'FAILED'],
+        enum: ['IN_PROGRESS', 'SOLVED', 'FAILED', 'ABANDONED'],
         default: 'IN_PROGRESS',
         required: true
     },

@@ -16,7 +16,7 @@ export class ProfileService {
         // Find finished sessions (SOLVED or FAILED) and include Stoty title
         const sessions = await GameSession.find({
             player_id: playerId, 
-            status: { $in: ['IN_PROGRESS', 'SOLVED', 'FAILED']},
+            status: { $in: ['IN_PROGRESS', 'SOLVED', 'FAILED', 'ABANDONED']},
         })
             .populate('story_id', 'title')
             .sort({ started_at: -1 })       // Sort from newest to oldest 
