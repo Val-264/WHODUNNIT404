@@ -10,6 +10,7 @@ export interface IGameSession extends Document {
     story_id: Types.ObjectId;
     status: 'IN_PROGRESS' |'SOLVED' | 'FAILED' | 'ABANDONED';
     started_at: Date;
+    completed_at?: Date;
     solution: {
         guilty_suspect_id: Types.ObjectId;
         crime_scene_id: Types.ObjectId;
@@ -40,6 +41,9 @@ const GameSessionSchema = new Schema<IGameSession>({
         type: Date, 
         default: Date.now
     }, 
+    completed_at: {
+        type: Date
+    },
     solution: {
         guilty_suspect_id: {
             type: Schema.Types.ObjectId, 

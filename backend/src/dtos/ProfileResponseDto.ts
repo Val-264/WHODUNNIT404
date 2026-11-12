@@ -23,7 +23,7 @@ export class ProfileResponseDTO {
             return {
                 caseTitle: story && story.title ? story.title: 'Unknown Case',
                 status: session.status as 'IN_PROGRESS' | 'SOLVED' | 'FAILED' | 'ABANDONED',
-                completedAt: session.started_at,
+                completedAt: session.completed_at,
             };
         });
 
