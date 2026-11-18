@@ -170,6 +170,15 @@
   box-shadow: 0 0 12px rgba(208, 0, 0, 0.45);
 }
 
+.case-badge-progress {
+  border: 2px dashed #f59e0b;
+  color: #f59e0b;
+}
+.case-badge-abandoned {
+  border: 2px solid #6b6b6b;
+  color: #9a8f8d;
+}
+ 
 .btn-back {
   display: block;
   width: fit-content;
