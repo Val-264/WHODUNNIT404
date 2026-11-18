@@ -124,7 +124,7 @@ export class GameService {
     public static async getGameById(gameId: string, playerId: string) {
         const session = await GameSession.findById(gameId)
             .populate('story_id')
-            .populate('suspect_location.suspect_id', 'suspect_name bio img_url');
+            .populate('suspect_locations.suspect_id', 'suspect_name bio img_url');
 
         if (!session) {
             throw new Error('GAME_NOT_FOUND');
