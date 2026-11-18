@@ -122,10 +122,17 @@ export class GameService {
     }
 
     public static async getGameById(gameId: string, playerId: string) {
-        const session = await GameSession.findOne({ _id: gameId, player_id: playerId }).populate('story_id');
+        const session = await GameSession.findById(gameId)
+            .populate('story_id')
+            .populate('suspect_location.suspect_id', 'suspect_name bio img_url');
 
         if (!session) {
             throw new Error('GAME_NOT_FOUND');
+        }
+
+
+        if (session.player_id.toString() !== playerId) {
+            throw new Error('FORBIDDEN_ACCESS');
         }
 
         const story = session.story_id as any;
@@ -134,6 +141,19 @@ export class GameService {
         if (places.length < 9) {
             throw new Error('INSUFFICIENT_GAME_DATA');
         }
+
+        const suspectByPlaceMap = new Map<string, any>();
+        session.suspect_locations.forEach((assignment: any) => {
+            const suspectDoc = assignment.suspect_id;
+            if(assignment.place_id && suspectDoc) {
+                suspectByPlaceMap.set(assignment.place_id.toString(), {
+                    id: suspectDoc._id,
+                    name: suspectDoc.suspect_name,
+                    bio: suspectDoc.bio, 
+                    imgUrl: suspectDoc.img_url,
+                });
+            }
+        });
         
         const fixedMapLayout = [
             'Teatro',             // Position 1
@@ -150,16 +170,20 @@ export class GameService {
         // Map the objects from MongoDB following the exact order from above
         const orderedZones = fixedMapLayout.map((placeName) => {
             const place = places.find((p) => p.place_name === placeName);
+            const placeIdStr = place?.id?.toString() || '';
+
             return {
                 id: place?._id,
                 name: place?.place_name,
                 zoneInfo: place?.zone_info,
                 imageUrl: place?.image_url,
+                suspect: suspectByPlaceMap.get(placeIdStr) || null,
             };
         });
 
         return {
             id: session._id,
+            status: session.status,
             title: story.title,
             victimName: story.victim_name,
             story: story.intro_text,
