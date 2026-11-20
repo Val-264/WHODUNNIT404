@@ -13,10 +13,10 @@ export class ProfileService {
             throw new Error('PLAYER_NOT_FOUND');
         }
 
-        // Find finished sessions (SOLVED or FAILED) and include Stoty title
+        // Find player sessions (IN_PROGRESS, SOLVED, FAILED, ABANDONED) and include Story title
         const sessions = await GameSession.find({
             player_id: playerId, 
-            status: { $in: ['SOLVED', 'FAILED']},
+            status: { $in: ['IN_PROGRESS', 'SOLVED', 'FAILED', 'ABANDONED']},
         })
             .populate('story_id', 'title')
             .sort({ started_at: -1 })       // Sort from newest to oldest 

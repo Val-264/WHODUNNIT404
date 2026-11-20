@@ -22,7 +22,7 @@ export class ProfileController {
             const err = error as Error;
 
             if (err.message === 'PLAYER_NOT_FOUND') {
-                res.status(404).json({succes: false, message: 'Player not found'});
+                res.status(404).json({success: false, message: 'Player not found'});
                 return;
             }
             next(error);
