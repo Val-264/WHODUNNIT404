@@ -76,6 +76,10 @@ export class GameController {
                 res.status(404).json({ success: false, message: 'Game session not found' });
                 return;
             }
+            if (err.message === 'FORBIDDEN_ACCESS') {
+                res.status(403).json({ success: false, message: 'Access denied to this game session' });
+                return;
+            }
             next(error);
         }
     }

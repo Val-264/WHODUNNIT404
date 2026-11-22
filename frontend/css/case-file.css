@@ -1,4 +1,7 @@
 /* Case file: floating button + modal. Shared by every gameplay screen */
+body {
+  padding-bottom: 70px;
+}
 
 /* ---------- Floating button ---------- */
 .case-file-fab {

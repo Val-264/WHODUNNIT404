@@ -187,6 +187,21 @@
 .skeleton {
   min-height: 260px;
 }
+.zone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zone-info {
+  font-size: 0.95rem;
+  color: #e8c4bd;
+}
+
+.zone:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 /* ---------- Small screens ---------- */
 @media (max-width: 1000px) {
