@@ -65,7 +65,7 @@ const seedDatabase = async () => {
             },
             { 
                 place_name: 'Cantina', 
-                zone_info: 'Establecimiento ruidoso con olro a licor',
+                zone_info: 'Establecimiento ruidoso con olor a licor',
                 image_url: '/',
             },
             { 
@@ -95,7 +95,7 @@ const seedDatabase = async () => {
             },
             { 
                 place_name: 'Café', 
-                zone_info: 'Punto de reunión causla con aroma a grano recién tostado',
+                zone_info: 'Punto de reunión casual con aroma a grano recién tostado',
                 image_url: '/',
             },
             { 
