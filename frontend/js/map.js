@@ -26,8 +26,6 @@ const loadingState = document.getElementById("loading-state");
 const errorState = document.getElementById("error-state");
 const contentState = document.getElementById("content-state");
 const zonesList = document.getElementById("zones-list");
-const fileModal = document.getElementById("file-modal");
-const openFileBtn = document.getElementById("open-file-btn");
 
 // Shows one state at a time: "loading", "error" or "content"
 function showState(name) {
@@ -55,39 +53,13 @@ function createElement(tag, className, text) {
   return node;
 }
 
-// The backend sends the same intro text as story and context for now,
-// and no separate text about the victim. Empty or repeated sections are hidden.
+// The case file texts are handled by case-file.js. The map only needs these
 function readGame(body) {
   const data = body.data || body;
   return {
     caseTitle: data.title,
-    victimName: data.victimName,
-    victim: data.victim, // not sent yet
-    story: data.story,
-    context: data.context === data.story ? "" : data.context,
     zones: data.zones || [], // the 9 zones of the map, in order
   };
-}
-
-// A text with line breaks becomes one paragraph per line
-function fillParagraphs(containerId, text) {
-  const container = document.getElementById(containerId);
-  const paragraphs = String(text || "")
-    .split("\n")
-    .filter((line) => line.trim() !== "")
-    .map((line) => createElement("p", "", line));
-  container.replaceChildren(...paragraphs);
-  // A section without text is hidden
-  container.closest("section").hidden = paragraphs.length === 0;
-}
-
-function renderCaseFile(game) {
-  document.getElementById("file-tag").textContent =
-    `${game.caseTitle || "Caso"} // Dossier judicial`;
-  document.getElementById("file-victim").textContent = game.victimName;
-  fillParagraphs("file-victim-text", game.victim);
-  fillParagraphs("file-story-text", game.story);
-  fillParagraphs("file-context-text", game.context);
 }
 
 function selectZone(selected) {
@@ -113,18 +85,7 @@ function createZone(zone, index) {
 
 function renderGame(game) {
   document.getElementById("map-tag").textContent = game.caseTitle || "";
-  renderCaseFile(game);
   zonesList.replaceChildren(...game.zones.map(createZone));
-}
-
-function openFile() {
-  fileModal.hidden = false;
-  document.getElementById("file-close-btn").focus();
-}
-
-function closeFile() {
-  fileModal.hidden = true;
-  openFileBtn.focus();
 }
 
 async function loadUsername() {
@@ -150,25 +111,18 @@ async function loadGame() {
     renderGame(readGame(body));
     showState("content");
 
-    // A new case opens the file. Resuming a saved game goes straight to the map
-    if (!isResume) openFile();
+    // Floating case file button. A new case opens the file.
+    // Resuming a saved game goes straight to the map
+    CaseFile.init({
+      gameUrl: GAME_URL,
+      gameId,
+      loginUrl: LOGIN_URL,
+      autoOpen: !isResume,
+    });
   } catch (error) {
     showState("error");
   }
 }
-
-// The file closes with the X, the button, ESC or a click outside of it
-document.getElementById("file-close-btn").addEventListener("click", closeFile);
-document.getElementById("file-done-btn").addEventListener("click", closeFile);
-openFileBtn.addEventListener("click", openFile);
-
-fileModal.addEventListener("click", (event) => {
-  if (event.target === fileModal) closeFile();
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !fileModal.hidden) closeFile();
-});
 
 document.getElementById("retry-btn").addEventListener("click", loadGame);
 
