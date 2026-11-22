@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/layout.css" />
     <link rel="stylesheet" href="../css/map.css" />
+    <link rel="stylesheet" href="../css/case-file.css" />
     <title>Mapa de la escena | Whodunnit404</title>
   </head>
   <body class="page-layout">
@@ -77,9 +78,6 @@
             <h1 class="map-title">Mapa de la escena</h1>
             <p class="map-subtitle">Selecciona una zona para investigar</p>
           </div>
-          <button type="button" class="btn-file" id="open-file-btn">
-            Ver expediente
-          </button>
         </div>
 
         <div class="city">
@@ -98,57 +96,7 @@
         <span>Estado: conexión cifrada</span>
       </div>
     </footer>
-
-    <!-- CASE FILE: opens over the map and can be closed at any time -->
-    <div class="modal-overlay" id="file-modal" hidden>
-      <article
-        class="file with-corners"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="file-victim"
-      >
-        <header class="file-header">
-          <p class="file-tag" id="file-tag"></p>
-          <h2 class="file-victim" id="file-victim"></h2>
-          <p class="stamp">
-            CONFIDENCIAL
-            <span>EXPEDIENTE NO. 404</span>
-          </p>
-          <button
-            type="button"
-            class="file-close"
-            id="file-close-btn"
-            aria-label="Cerrar expediente"
-          >
-            ✕
-          </button>
-          <div class="divider"></div>
-        </header>
-
-        <div class="file-body">
-          <section>
-            <h3 class="file-section"><small>DOC-A1</small> La víctima</h3>
-            <div id="file-victim-text"></div>
-          </section>
-          <section>
-            <h3 class="file-section"><small>DOC-B2</small> La historia</h3>
-            <div id="file-story-text"></div>
-          </section>
-          <section>
-            <h3 class="file-section"><small>DOC-C3</small> El contexto</h3>
-            <div id="file-context-text"></div>
-          </section>
-        </div>
-
-        <footer class="file-footer">
-          <button type="button" class="btn-primary" id="file-done-btn">
-            Cerrar expediente
-          </button>
-          <p>Pulsa ESC para cerrar</p>
-        </footer>
-      </article>
-    </div>
-
+    <script src="../js/case-file.js"></script>
     <script src="../js/map.js"></script>
   </body>
 </html>

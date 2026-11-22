@@ -43,7 +43,7 @@ export class GameService {
         if (dto.isRestart) {
             await GameSession.updateMany(
                 { player_id, story_id: dto.story_id, status: 'IN_PROGRESS' }, 
-                { status: 'FAILED' }
+                { status: 'ABANDONED', completed_at: new Date() }
             );
         } else {
             const existing = await GameSession.findOne({

@@ -1,5 +1,12 @@
 const API_URL = "http://127.0.0.1:3000/api/profile";
 const LOGIN_URL = "login.html";
+ 
+const BADGES = {
+  SOLVED: { text: "Resuelto", className: "case-badge-solved" },
+  FAILED: { text: "Fallido", className: "case-badge-failed" },
+  IN_PROGRESS: { text: "En curso", className: "case-badge-progress" },
+  ABANDONED: { text: "Abandonado", className: "case-badge-abandoned" },
+};
 
 const loadingState = document.getElementById("loading-state");
 const errorState = document.getElementById("error-state");
@@ -24,10 +31,6 @@ function readProfile(body) {
   };
 }
 
-function isSolved(item) {
-  return item.status === "SOLVED";
-}
-
 function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
@@ -42,17 +45,21 @@ function createCaseRow(item) {
   const title = document.createElement("p");
   title.className = "case-title";
   title.textContent = item.caseTitle;
-  const date = document.createElement("p");
-  date.className = "case-date";
-  date.textContent = formatDate(item.completedAt);
-  info.append(title, date);
+  info.append(title);
 
+  // The ongoing cases don´t have an end date
+  const dateText = formatDate(item.completedAt);
+  if (dateText) {
+    const date = document.createElement("p");
+    date.className = "case-date";
+    date.textContent = dateText;
+    info.append(date);
+  }
+
+  const badgeInfo = BADGES[item.status] || { text: item.status, className: "" };
   const badge = document.createElement("span");
-  const solved = isSolved(item);
-  badge.className = solved
-    ? "case-badge case-badge-solved"
-    : "case-badge case-badge-failed";
-  badge.textContent = solved ? "Resuelto" : "Fallido";
+  badge.className = `case-badge ${badgeInfo.className}`;
+  badge.textContent = badgeInfo.text;
 
   row.append(info, badge);
   return row;
@@ -62,17 +69,18 @@ function renderProfile(profile) {
   document.getElementById("profile-username").textContent = profile.username;
   document.getElementById("user-chip").textContent = profile.username;
 
-  const total = profile.history.length;
-  const solved = profile.history.filter(isSolved).length;
+  const solved = profile.history.filter((item) => item.status === "SOLVED").length;
+  const failed = profile.history.filter((item) => item.status === "FAILED").length;
 
+  // Cases in progress are listed, but they do not count as solved or failed
   document.getElementById("stat-solved").textContent = solved;
-  document.getElementById("stat-failed").textContent = total - solved;
-  document.getElementById("stat-total").textContent = total;
+  document.getElementById("stat-failed").textContent = failed;
+  document.getElementById("stat-total").textContent = solved + failed;
 
-  // The history only has solved and failed cases
+  const hasHistory = profile.history.length > 0;
   historyList.replaceChildren(...profile.history.map(createCaseRow));
-  historyList.hidden = total === 0;
-  emptyState.hidden = total > 0;
+  historyList.hidden = !hasHistory;
+  emptyState.hidden = solved + failed > 0;
 }
 
 async function loadProfile() {
