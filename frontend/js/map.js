@@ -1,6 +1,8 @@
 const API_URL = "http://127.0.0.1:3000/api";
 const LOGIN_URL = "login.html";
 const MENU_URL = "menu.html";
+const SCENE_URL = "scene.html";
+const ZONES_COUNT = 9;
 
 const GAME_URL = `${API_URL}/games`; // GET /games/:id
 const PROFILE_URL = `${API_URL}/profile`;
@@ -62,24 +64,32 @@ function readGame(body) {
   };
 }
 
-function selectZone(selected) {
-  zonesList.querySelectorAll(".zone").forEach((zone) => {
-    zone.classList.toggle("is-selected", zone === selected);
-  });
+// Opens the scene of a zone: its background and the character assigned to it
+function openScene(zone) {
+  const query = new URLSearchParams({ game: gameId, place: zone.id });
+  window.location.href = `${SCENE_URL}?${query}`;
 }
 
 function createZone(zone, index) {
   const name = zone.name || DEFAULT_ZONE_NAMES[index] || "";
   const button = createElement("button", "zone with-corners");
   button.type = "button";
+  // A zone without id cannot open a scene
+  button.disabled = !zone.id;
   if (name.toLowerCase() === "plaza") button.classList.add("zone-plaza");
+
+  const text = createElement("span", "zone-text");
+  text.append(createElement("span", "zone-name", name));
+  if (zone.zoneInfo) {
+    text.append(createElement("span", "zone-info", zone.zoneInfo));
+  }
 
   button.append(
     createElement("span", "zone-label", `Zona ${index + 1}`),
-    createElement("span", "zone-name", name),
+    text,
     createElement("span", "zone-action", "Investigar"),
   );
-  button.addEventListener("click", () => selectZone(button));
+  button.addEventListener("click", () => openScene(zone));
   return button;
 }
 
@@ -108,7 +118,12 @@ async function loadGame() {
     if (!response.ok) throw new Error("Game request failed");
 
     const body = await response.json();
-    renderGame(readGame(body));
+    const game = readGame(body);
+    // AC26: the map always shows exactly 9 locations
+    if (game.zones.length !== ZONES_COUNT) {
+      throw new Error("The map needs exactly 9 zones");
+    }
+    renderGame(game);
     showState("content");
 
     // Floating case file button. A new case opens the file.
