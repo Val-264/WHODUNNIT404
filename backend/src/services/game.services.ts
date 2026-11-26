@@ -6,7 +6,7 @@ import { Place } from '../models/Place';
 import { GameSession} from '../models/GameSession';
 import { CaseListResponseDTO } from '../dtos/CaseListResponseDto';
 import { StartGameDTO } from '../dtos/StartGameDto';
-
+import { Dialogue } from '../models/Dialogue';
 export class GameService {
 
     /*
@@ -189,6 +189,112 @@ export class GameService {
             story: story.intro_text,
             context: story.intro_text,
             zones: orderedZones,
+        };
+    }
+
+    // Add an extra line to the suspects lines based on the state of the game 
+    public static async getSceneInterview(gameId: string, placeId: string, playerId: string) {
+        const session = await GameSession.findById(gameId)
+            .populate('suspect_locations.suspect_id', 'suspect_name')
+            .populate('suspect_locations.place_id', 'place_name');
+
+        if (!session) {
+            throw new Error('GAME_NOT_FOUND');
+        }
+
+
+        if (session.player_id.toString() !== playerId) {
+            throw new Error('FORBIDDEN_ACCESS');
+        }
+        
+        const place = await Place.findById(placeId);
+        if (!place) {
+            throw new Error('PLACE_NOT_FOUND');
+        }
+
+        const assignment = session.suspect_locations.find(
+            (item:any) => item.place_id._id.toString() === placeId
+        );
+
+        if (!assignment) {
+            throw new Error('SUSPECT_NOT_ASSIGNED');
+        }
+
+        const suspectDoc = assignment.suspect_id as any;
+        const suspect = await Suspect.findById(suspectDoc._id);
+        if (!suspect) {
+            throw new Error('SUSPECT_NOT_FOUND');
+        }
+
+        const dialogueDoc = await Dialogue.findOne({
+            story_id: session.story_id,
+            suspect_id: suspect._id
+        });
+
+        if (!dialogueDoc) {
+            throw new Error('DIALOGUE_NOT_FOUND');
+        }
+
+        const guiltyIdStr = session.solution.guilty_suspect_id.toString();
+        const crimeSceneIdStr = session.solution.crime_scene_id.toString();
+        const isGuilty = guiltyIdStr === suspect._id.toString();
+
+        // Copy the base lines from the seeder 
+        const lines = isGuilty ? [...dialogueDoc.guilty_lines] : [...dialogueDoc.innocent_lines];
+
+        // Generate the 3th line based on the state of teh game 
+        const otherAssignments = session.suspect_locations.filter(
+            (item: any) => item.suspect_id._id.toString() !== suspect._id.toString()
+        );
+
+        if (!isGuilty) {
+            /*If the suspect is innocent, choose between ruling out a safe location 
+            or confirming the real location of another innocente suspect*/
+            const innocentOthers = otherAssignments.filter (
+                (item: any) => item.suspect_id._id.toString() !== guiltyIdStr
+            );
+            const safePlaces = otherAssignments.filter(
+                (item: any) => item.place_id._id.toString() !== crimeSceneIdStr
+            );
+
+            /*Use the last character of the suspect's ID to ensure 
+            it is deterministic within the same session */ 
+            const useLocationClue = suspect._id.toString().charCodeAt(23) % 2 === 0;
+
+            if (useLocationClue && safePlaces.length > 0) {
+                const picked = safePlaces[suspect._id.toString().charCodeAt(22) % safePlaces.length] as any;
+                lines.push(`Por cierto, detective, pasé hace un momento por ${picked.place_id.place_name} y todo estaba completamente en orden.`);
+            } else if (innocentOthers.length > 0) {
+                const witness = innocentOthers[suspect._id.toString().charCodeAt(22) % innocentOthers.length] as any;
+                lines.push(`Si le sirve de algo, vi a ${witness.suspect_id.suspect_name} en ${witness.place_id.place_name} hace un rato.`);
+            }
+        } else {
+            /*If the suspect is guilty, he lies about the location of another suspect*/
+            if (otherAssignments.length >= 2) {
+                const target = otherAssignments[0] as any;
+                const wrongPlace = otherAssignments[1] as any;
+                lines.push(`Si busca respuestas, yo mismo vi a ${target.suspect_id.suspect_name} merodeando por ${wrongPlace.place_id.place_name}.`);
+            }
+        }
+
+        // Save the current visited location 
+        session.current_place_id = place._id as any;
+        await session.save();
+
+        return {
+            place: {
+                id: place._id,
+                name: place.place_name,
+                zoneInfo: place.zone_info,
+                imageUrl: place.image_url,
+            },
+            suspect: {
+                id: suspect._id,
+                name: suspect.suspect_name,
+                bio: suspect.bio,
+                imgUrl: suspect.img_url,
+            },
+            dialogue: lines,
         };
     }
 }
