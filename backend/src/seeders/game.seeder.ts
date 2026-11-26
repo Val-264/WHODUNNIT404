@@ -108,47 +108,47 @@ const seedDatabase = async () => {
         const suspects = await Suspect.insertMany([
             { 
                 suspect_name: 'James Moriarty', 
-                bio: 'l',
+                bio: 'Exprofesor y asesor financiero de mente brillante, con contactos en los bajos fondos. Nadie recuerda haberlo visto perder una discusión.',
                 img_url: '/',
             },
             { 
                 suspect_name: 'Irene Norton', 
-                bio: 'l', 
+                bio: 'Cantante de ópera y anfitriona de los salones más exclusivos de la ciudad. Sabe más secretos de los que confiesa.', 
                 img_url: '/',
             },
             { 
                 suspect_name: 'Sebastian Moran', 
-                bio: 'l',
+                bio: 'Excoronel y cazador experto, ahora trabaja como guardaespaldas por encargo. Es de pocas palabras y excelente puntería.',
                 img_url: '/',
             },
             { 
-                suspect_name: 'Lawrance Wargfave',  
-                bio: 'l',
+                suspect_name: 'Lawrance Wargrave',  
+                bio: 'Juez retirado de reputación severa e impecable. Administra los bienes de varias familias de la ciudad.',
                 img_url: '/',
             },
             { 
                 suspect_name: 'Lanfranco Casseti',  
-                bio: 'l',
+                bio: 'Importador de antigüedades con un pasado poco claro. Cambia de socios con la misma facilidad que de dirección.',
                 img_url: '/',
             },
             { 
                 suspect_name: 'Vania Lancaster',  
-                bio: 'l',
+                bio: 'Arquitecta y contratista de obras, respetada y muy reservada. Ha trabajado para casi todos los ricos de la ciudad.',
                 img_url: '/',
             },
             { 
                 suspect_name: 'Willem O´Brien',  
-                bio: 'l',
+                bio: 'Joven abogado, amable y meticuloso. Aún lo consultan en casos delicados. Es aficionado de la literatura médica',
                 img_url: '/',
             },
             { 
                 suspect_name: 'Amalia Marcel',  
-                bio: 'l',
+                bio: 'Contadora de carácter sereno que lleva las cuentas de medio vecindario. Es hermana de Isabella.',
                 img_url: '/',
             },
             { 
-                suspect_name: 'Isabella Marcell',  
-                bio: 'l',
+                suspect_name: 'Isabella Marcel',  
+                bio: 'Joyera sociable y de lengua rápida, conocida por saber todos los chismes del barrio. Es hermana de Amalia.',
                 img_url: '/',
             },
         ]);
@@ -156,23 +156,23 @@ const seedDatabase = async () => {
         // Insert the three base cases 
         await Story.insertMany([
             {
-                title: 'Caso 1',
+                title: 'El ultimo lienzo',
                 intro_text:
-                'Descripción del estaod del cuerpo e información sobre el lugar donde lo localizaron',
+                'Samuel Ratchett, comerciante de arte de 60 años, fue hallado a una cuadra de su almacén con una herida punzante profunda de bordes irregulares detrás de la oreja izquierda y fractura craneal. Murió desangrado. Las marcas en sus zapatos indican que lo arrastraron desde el lugar del ataque. No se halló el arma y todas las obras que resguardaba desaparecieron.',
                 victim_name: 'Samuel Ratchett',
                 fixed_weapon_id: weaponMap.get('Destornillador'),
             },
             {
-                title: 'Caso 2',
+                title: 'La ultima casa',
                 intro_text:
-                'Descripción del estaod del cuerpo e información sobre el lugar donde lo localizaron',
+                'Linnet Ridgeway, de 20 años, compraba y remodelaba inmuebles para venderlos. Su cuerpo apareció dentro de un baúl de equipaje en un barco rumbo a Egipto, con signos de forcejeo, un golpe contundente en la sien y una marca alargada y cilíndrica de presión en el cuello. La suciedad de su vestido indica que fue arrastrada hasta el baúl. Su empresa había estafado a varias personas para quedarse con sus casas a bajo precio.',
                 victim_name: 'Linnet Ridgeway',
                 fixed_weapon_id: weaponMap.get('Bastón'),
             },
             {
-                title: 'Caso 3',
+                title: 'Fragancia a muerte',
                 intro_text:
-                'Descripción del estaod del cuerpo e información sobre el lugar donde lo localizaron',
+                'Marie Roget, dependienta de perfumería de 22 años, fue hallada a orillas del río, a dos pueblos de su ciudad natal. Su cuerpo tiene múltiples hematomas y marcas en las muñecas, y los labios amoratados. Una carretilla cercana indica que fue transportada y arrojada al agua.',
                 victim_name: 'Marie Roget',
                 fixed_weapon_id: weaponMap.get('Veneno'),
             }, 
