@@ -56,19 +56,19 @@ export class GameController {
     public static async getGameById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const playerId = req.user?.id;
-            const { id } = req.params;
+            const { gameId } = req.params;
 
             if (!playerId) {
                 res.status(401).json({ success: false, message: 'Unauthorized' });
                 return;
             }
 
-            if (!id || typeof id !== 'string') {
+            if (!gameId || typeof gameId !== 'string') {
                 res.status(400).json({ success: false, message: 'Invalid or missing game ID' });
                 return;
             }
 
-            const gameData = await GameService.getGameById(id, playerId);
+            const gameData = await GameService.getGameById(gameId, playerId);
             res.status(200).json({ success: true, data: gameData });
         } catch (error) {
             const err = error as Error;
@@ -87,7 +87,7 @@ export class GameController {
     public static async interviewSuspect(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const playerId = req.user?.id;
-            const { id, placeId } = req.params;
+            const { gameId, placeId } = req.params;
 
             if (!playerId) {
                 res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -95,14 +95,14 @@ export class GameController {
             }
 
             if (
-                !id || typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/) ||
+                !gameId || typeof gameId !== 'string' || !gameId.match(/^[0-9a-fA-F]{24}$/) ||
                 !placeId || typeof placeId !== 'string' || !placeId.match(/^[0-9a-fA-F]{24}$/)
             ) {
                 res.status(400).json({ success: false, message: 'Invalid game ID or place ID' });
                 return;
             }
 
-            const sceneData = await GameService.getSceneInterview(id, placeId, playerId);
+            const sceneData = await GameService.getSceneInterview(gameId, placeId, playerId);
             res.status(200).json({ success: true, data: sceneData });
         } catch (error) {
             const err = error as Error;
