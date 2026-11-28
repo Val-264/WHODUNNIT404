@@ -61,47 +61,47 @@ const seedDatabase = async () => {
             { 
                 place_name: 'Teatro', 
                 zone_info: 'Escenario principal', 
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/teatro.png',
             },
             { 
                 place_name: 'Cantina', 
                 zone_info: 'Establecimiento ruidoso con olor a licor',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/cantina.png',
             },
             { 
                 place_name: 'Biblioteca', 
                 zone_info: 'Estantes repletos de libros antiguos', 
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/biblioteca.png',
             },
             { 
                 place_name: 'Hotel', 
                 zone_info: 'Hospedaje elegante con flujo constante de huéspedes',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/hotel.png',
             },
             { 
                 place_name: 'Plaza', 
                 zone_info: 'Centro de la ciudad y punto de encuentro concurrido',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/plaza.png',
             },
             { 
                 place_name: 'Salón de baile', 
                 zone_info: 'Amplia pista de baile con suelo reluciente',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/salon-de-baile.png',
             },
             { 
                 place_name: 'Farmacia', 
                 zone_info: 'Estantes con frascos medicinales y tónicos',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/farmacia.png',
             },
             { 
                 place_name: 'Café', 
                 zone_info: 'Punto de reunión casual con aroma a grano recién tostado',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/cafe.png',
             },
             { 
                 place_name: 'Fachada del banco', 
                 zone_info: 'Explanada con columnas altas y la puerta del banco de fondo',
-                image_url: '/',
+                image_url: '../../../frontend/assets/images/places/fachada-del-banco.png',
             },
         ]);
 
@@ -109,47 +109,47 @@ const seedDatabase = async () => {
             { 
                 suspect_name: 'James Moriarty', 
                 bio: 'Exprofesor y asesor financiero de mente brillante, con contactos en los bajos fondos. Nadie recuerda haberlo visto perder una discusión.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/james-moriarty.png',
             },
             { 
                 suspect_name: 'Irene Norton', 
                 bio: 'Cantante de ópera y anfitriona de los salones más exclusivos de la ciudad. Sabe más secretos de los que confiesa.', 
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/irene-norton.png',
             },
             { 
                 suspect_name: 'Sebastian Moran', 
                 bio: 'Excoronel y cazador experto, ahora trabaja como guardaespaldas por encargo. Es de pocas palabras y excelente puntería.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/sebastian-moran.png',
             },
             { 
                 suspect_name: 'Lawrence Wargrave',  
                 bio: 'Juez retirado de reputación severa e impecable. Administra los bienes de varias familias de la ciudad.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/lawrence-wargrave.png',
             },
             { 
                 suspect_name: 'Lanfranco Casseti',  
                 bio: 'Importador de antigüedades con un pasado poco claro. Cambia de socios con la misma facilidad que de dirección.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/lanfranco-casseti.png',
             },
             { 
                 suspect_name: 'Vania Lancaster',  
                 bio: 'Arquitecta y contratista de obras, respetada y muy reservada. Ha trabajado para casi todos los ricos de la ciudad.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/vania-ancaster.png',
             },
             { 
                 suspect_name: 'Willem O´Brien',  
                 bio: 'Joven abogado, amable y meticuloso. Aún lo consultan en casos delicados. Es aficionado de la literatura médica',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/willem-obrien.png',
             },
             { 
                 suspect_name: 'Amalia Marcel',  
                 bio: 'Contadora de carácter sereno que lleva las cuentas de medio vecindario. Es hermana de Isabella.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/amalia-marcel.png',
             },
             { 
                 suspect_name: 'Isabella Marcel',  
                 bio: 'Joyera sociable y de lengua rápida, conocida por saber todos los chismes del barrio. Es hermana de Amalia.',
-                img_url: '/',
+                img_url: '../../../frontend/assets/images/suspects/isabella-marcel.png',
             },
         ]);
 
