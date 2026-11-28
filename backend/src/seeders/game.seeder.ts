@@ -122,7 +122,7 @@ const seedDatabase = async () => {
                 img_url: '/',
             },
             { 
-                suspect_name: 'Lawrance Wargrave',  
+                suspect_name: 'Lawrence Wargrave',  
                 bio: 'Juez retirado de reputación severa e impecable. Administra los bienes de varias familias de la ciudad.',
                 img_url: '/',
             },
