@@ -1,0 +1,286 @@
+/* Scene screen (US08): location background, assigned character and dialogue */
+
+/* The scene fills the window: navbar on top, dialogue pinned to the bottom */
+.scene-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(208, 0, 0, 0.12), transparent 55%),
+    #0d0d0d;
+}
+
+.scene > #loading-state,
+.scene > #error-state {
+  margin: 60px auto;
+}
+
+/* ---------- Location background ---------- */
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    filter: grayscale(1) contrast(1.1);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(13, 13, 13, 0.6) 0%,
+      rgba(13, 13, 13, 0.1) 40%,
+      #0d0d0d 100%
+    );
+  }
+}
+
+/* ---------- Layout ---------- */
+.scene-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 40px 20px;
+}
+
+.scene-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.scene-tag {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f59e0b;
+  &::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #d00000;
+  }
+}
+
+.scene-zone {
+  padding: 3px 8px;
+  border: 1px solid #d00000;
+  background-color: #3a0000;
+  color: #fff;
+}
+
+.scene-title {
+  margin: 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 4rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  &::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    margin-top: 6px;
+    background-color: #d00000;
+  }
+}
+
+.scene-back {
+  padding: 12px 20px;
+  border: 1px solid #3a3a3a;
+  background-color: rgba(13, 13, 13, 0.7);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+}
+
+.scene-back:hover,
+.scene-back:focus-visible {
+  border-color: #d00000;
+}
+
+/* ---------- Character ---------- */
+.scene-character {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(460px, 36vw);
+  margin: 18px 0;
+  border-left: 2px solid #d00000;
+  background-color: rgba(13, 13, 13, 0.75);
+}
+
+.scene-portrait {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background-color: #050505;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .portrait-placeholder {
+    width: 30%;
+    height: auto;
+    opacity: 0.25;
+  }
+}
+
+.scene-character figcaption {
+  padding: 12px 18px 14px;
+}
+
+.scene-role {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f59e0b;
+}
+
+.scene-name {
+  margin: 2px 0 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ---------- Dialogue ---------- */
+.dialogue {
+  background-color: rgba(13, 13, 13, 0.94);
+  padding: 20px 30px;
+  cursor: pointer;
+}
+
+.dialogue-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  h2 {
+    margin: 0;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ff5a4d;
+  }
+  small {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9a8f8d;
+  }
+}
+
+/* Room for three lines, so the box does not jump between lines */
+.dialogue-text {
+  min-height: 4.8em;
+  margin: 14px 0 18px;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #f1e4e0;
+}
+
+.dialogue-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-top: 14px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.dialogue-progress {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f59e0b;
+  small {
+    margin-left: 10px;
+    color: #9a8f8d;
+  }
+}
+
+.btn-next {
+  padding: 12px 36px;
+  border: 0;
+  background-color: #d00000;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(208, 0, 0, 0.45);
+}
+
+.btn-next:hover {
+  background-color: #ff1a1a;
+}
+
+.btn-next:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ---------- Floating case file button ---------- */
+/* On this screen it sits above the dialogue box. scene.js sets --dialogue-h */
+.scene-page .case-file-fab {
+  right: 40px;
+  bottom: calc(var(--dialogue-h, 230px) + 44px);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 1000px) {
+  .scene-page {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+  .scene-stage {
+    padding: 16px;
+  }
+  .scene-title {
+    font-size: 2.8rem;
+  }
+  .scene-character {
+    width: 100%;
+    min-height: 360px;
+  }
+  .dialogue {
+    padding: 16px;
+  }
+  .scene-page .case-file-fab {
+    right: 14px;
+  }
+}

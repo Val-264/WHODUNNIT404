@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/case-file.css" />
+    <link rel="stylesheet" href="../css/scene.css" />
+    <title>Escena | Whodunnit404</title>
+  </head>
+  <body class="page-layout scene-page">
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-circle">
+          <img src="../assets/icons/search.svg" alt="" />
+        </div>
+        <span class="navbar-title">WHODUNNIT<span>404</span></span>
+        <nav class="navbar-links">
+          <a href="menu.html" class="active">Expedientes</a>
+          <a href="#">Evidencias</a>
+          <a href="#">Sospechosos</a>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <span class="user-chip" id="user-chip"></span>
+        <a href="profile.html">Mi perfil</a>
+        <button type="button" class="btn-logout">Cerrar sesión</button>
+        <div class="avatar-circle">
+          <img src="../assets/icons/person.svg" alt="" />
+        </div>
+      </div>
+    </header>
+
+    <main class="scene">
+      <!-- Location background. The image is added by scene.js if it loads -->
+      <div class="scene-bg" id="scene-bg" aria-hidden="true"></div>
+
+      <!-- LOADING -->
+      <section id="loading-state">
+        <p class="loading-banner">
+          <span class="spinner"></span>
+          Cargando escena...
+        </p>
+      </section>
+
+      <!-- ERROR -->
+      <section id="error-state" class="state-card with-corners" hidden>
+        <img src="../assets/icons/warning.svg" alt="" class="state-icon" />
+        <h2 id="error-title">No pudimos cargar la escena</h2>
+        <p id="error-text">
+          El servidor no responde o la partida ya no está disponible.
+        </p>
+        <button type="button" class="btn-primary" id="retry-btn">
+          Reintentar
+        </button>
+        <a href="menu.html" class="link-back">Volver al menú</a>
+      </section>
+
+      <!-- CONTENT: the only interaction is advancing the dialogue -->
+      <section id="content-state" class="scene-stage" hidden>
+        <div class="scene-top">
+          <div>
+            <p class="scene-tag">
+              <span id="scene-case"></span>
+              <span class="scene-zone" id="scene-zone"></span>
+            </p>
+            <h1 class="scene-title" id="scene-title"></h1>
+          </div>
+          <a href="map.html" class="scene-back" id="back-link">
+            Volver al mapa
+          </a>
+        </div>
+
+        <figure class="scene-character">
+          <div class="scene-portrait" id="portrait">
+            <img
+              class="portrait-placeholder"
+              src="../assets/icons/person.svg"
+              alt=""
+            />
+          </div>
+          <figcaption>
+            <p class="scene-role">Testigo</p>
+            <p class="scene-name" id="character-name"></p>
+          </figcaption>
+        </figure>
+
+        <section
+          class="dialogue with-corners"
+          id="dialogue-box"
+          aria-label="Diálogo"
+        >
+          <header class="dialogue-header">
+            <h2 id="dialogue-name"></h2>
+            <small>// Declaración</small>
+          </header>
+
+          <p class="dialogue-text" id="dialogue-text" aria-live="polite"></p>
+
+          <footer class="dialogue-footer">
+            <p class="dialogue-progress" id="dialogue-progress">
+              Registro: <span id="dialogue-count"></span>
+              <small>[Enter / clic para continuar]</small>
+            </p>
+            <button type="button" class="btn-next" id="next-btn">
+              Siguiente
+            </button>
+          </footer>
+        </section>
+      </section>
+    </main>
+
+    <script src="../js/case-file.js"></script>
+    <script src="../js/scene.js"></script>
+  </body>
+</html>
