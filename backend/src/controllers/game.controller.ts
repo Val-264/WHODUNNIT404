@@ -56,19 +56,19 @@ export class GameController {
     public static async getGameById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const playerId = req.user?.id;
-            const { id } = req.params;
+            const { gameId } = req.params;
 
             if (!playerId) {
                 res.status(401).json({ success: false, message: 'Unauthorized' });
                 return;
             }
 
-            if (!id || typeof id !== 'string') {
+            if (!gameId || typeof gameId !== 'string') {
                 res.status(400).json({ success: false, message: 'Invalid or missing game ID' });
                 return;
             }
 
-            const gameData = await GameService.getGameById(id, playerId);
+            const gameData = await GameService.getGameById(gameId, playerId);
             res.status(200).json({ success: true, data: gameData });
         } catch (error) {
             const err = error as Error;
@@ -78,6 +78,44 @@ export class GameController {
             }
             if (err.message === 'FORBIDDEN_ACCESS') {
                 res.status(403).json({ success: false, message: 'Access denied to this game session' });
+                return;
+            }
+            next(error);
+        }
+    }
+
+    public static async interviewSuspect(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const playerId = req.user?.id;
+            const { gameId, placeId } = req.params;
+
+            if (!playerId) {
+                res.status(401).json({ success: false, message: 'Unauthorized' });
+                return;
+            }
+
+            if (
+                !gameId || typeof gameId !== 'string' || !gameId.match(/^[0-9a-fA-F]{24}$/) ||
+                !placeId || typeof placeId !== 'string' || !placeId.match(/^[0-9a-fA-F]{24}$/)
+            ) {
+                res.status(400).json({ success: false, message: 'Invalid game ID or place ID' });
+                return;
+            }
+
+            const sceneData = await GameService.getSceneInterview(gameId, placeId, playerId);
+            res.status(200).json({ success: true, data: sceneData });
+        } catch (error) {
+            const err = error as Error;
+            if (err.message === 'GAME_NOT_FOUND' || err.message === 'PLACE_NOT_FOUND' || err.message === 'SUSPECT_NOT_FOUND') {
+                res.status(404).json({ success: false, message: err.message });
+                return;
+            }
+            if (err.message === 'FORBIDDEN_ACCESS') {
+                res.status(403).json({ success: false, message: 'Access denied to this game session' });
+                return;
+            }
+            if (err.message === 'DIALOGUE_NOT_FOUND' || err.message === 'SUSPECT_NOT_ASSIGNED') {
+                res.status(500).json({ success: false, message: err.message });
                 return;
             }
             next(error);

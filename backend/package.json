@@ -10,7 +10,8 @@
     "build": "npx tsc",
     "start": "node ./src/app.js",
     "dev": "npx tsx --watch ./src/app.ts",
-    "seed": "npx tsx ./src/seeders/game.seeder.ts"
+    "seed:game": "npx tsx ./src/seeders/game.seeder.ts",
+    "seed:dialogues": "npx tsx ./src/seeders/dialogue.seeder.ts"
   },
   "keywords": [],
   "author": "",
