@@ -99,7 +99,7 @@ function readGame(body) {
     placeName: zone.name,
     placeImage: zone.imageUrl,
     characterName: character.name || character.suspect_name,
-    characterImage: character.imageUrl || character.img_url,
+    characterImage: character.imgUrl || character.imageUrl || character.img_url,
   };
 }
 
@@ -116,8 +116,7 @@ function readInterview(body) {
     placeName: place.name || place.place_name,
     placeImage: place.imageUrl || place.image_url,
     characterName: character.name || character.suspect_name,
-    characterImage:
-      character.imageUrl || character.img_url || character.image_url,
+    characterImage: character.imgUrl || character.imageUrl || character.img_url || character.image_url,
     lines: list
       .map((line) => (typeof line === "string" ? line : line && line.text))
       .filter((line) => typeof line === "string" && line.trim() !== ""),
